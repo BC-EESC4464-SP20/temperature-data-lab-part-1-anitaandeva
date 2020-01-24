@@ -36,10 +36,10 @@ plot(yr,Jan_Temp)
 % mean and std functions --> can you tell why? use the functions nanmean
 % and nanstd to avoid this issue.
 
-% --> monthMean = nanmean(Jan_Temp)
-% --> monthStd = 
-% --> monthMin = 
-% --> monthMax =
+monthMean = nanmean(Jan_Temp)
+monthStd = nanstd(Jan_Temp)
+monthMin = min(Jan_Temp)
+monthMax = max(Jan_Temp)
 
 %% 3. Calculate the annual climatology
 % Extract the monthly temperature data from the table and store it in an
@@ -49,16 +49,23 @@ tempData = table2array(stationdata(:,4:15));
 %Calculate the mean, standard deviation, minimum, and maximum temperature
 %for every month. This will be similar to what you did above for a single
 %month, but now applied over all months simultaneously.
-% --> tempMean =
-% --> tempStd =
-% --> tempMin =
-% --> tempMax =
-
+x = 1:12;
+    y = tempData(:,x);
+    tempMean = nanmean(y)
+    tempStd = nanstd(y)
+    tempMin = min(y)
+    tempMax = max(y)
 %Use the plotting function "errorbar" to plot the monthly climatology with
 %error bars representing the standard deviation. Add a title and axis
 %labels. Use the commands "axis", "xlim", and/or "ylim" if you want to
-%change from the automatic x or y axis limits.
+%change from the automatic x or y axis limits.    
     figure(1); clf
+    month=1:12;
+    errorbar(month,tempMean,tempStd);
+    title("Climatological monthly mean temperature");
+    xlabel("month");
+    ylabel("temperature in degree Celsius");
+   
 % --> (note that this may take multiple lines of code)
 
 %% 4. Fill missing values with the monthly climatological value
@@ -69,7 +76,9 @@ tempData = table2array(stationdata(:,4:15));
 for i = 1:12
     %use the find and isnan functions to find the index location in the
     %array of data points with NaN values
-    indnan = find(isnan(tempData(:,i)) == 1); %check to make sure you understand what is happening in this line
+    indnan = find(isnan(tempData(:,i)) == 1);%check to make sure you understand what is happening in this line
+    tempData(indnan) = tempMean(:,i);
+    tempData(isnan(tempData)) = tempMean(:,i)
     %now fill the corresponding values with the climatological mean
     % --> 
 end
