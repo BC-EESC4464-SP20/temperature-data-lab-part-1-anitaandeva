@@ -122,7 +122,7 @@ hold on
 movemean=movmean(anomly,5)
 plot(yr,movemean)
 %Now add a line with this smoothed data to the scatter plot
-hold off
+
 
 %% 7. Add and plot linear trends for whole time period, and for 1960 to today
 %Here we will use the function polyfit to calculate a linear fit to the data
@@ -130,19 +130,28 @@ hold off
 %read the documentation at https://www.mathworks.com/help/matlab/data_analysis/linear-regression.html
     %use polyfit to calculate the slope and intercept of a best fit line
     %over the entire observational period
-polyfit(yr,anomly',1)
+s=1:108;
+polyfit(s,anomly,1)
+
     %also calculate the slope and intercept of a best fit line just from
     %1960 to the end of the observational period
     % Hint: start by finding the index for where 1960 is in the list of
     % years
 A=find(yr == 1960)
-B=find
+B=find(yr == 2011)
+polyfit(s(57:108),anomly(57:108),1)
+
 
 %Add lines for each of these linear trends on the annual temperature
 %anomaly plot (you can do this either directly using the slope and intercept
 %values calculated with polyfit, or using the polyval function).
 %Plot each new line in a different color.
-% -->
+y = 0.018*s -1.2305;
+plot(yr,y)
+y1 = -0.0100*s(57:108)+0.4892
+plot(yr(57:108),y1)
+legend('Best fit line for Entire Observational Period','Best fit line from just 1960-2011')
+title('Scatter Plot of Anomaly with Baseline (1981-2000) vs. Year')
 
 % Add a legend, axis labels, and a title to your temperature anomaly plot
 % --> 
